@@ -144,6 +144,7 @@ class RelayerCharts extends React.Component {
                                 paddingRight={100}
                                 maxTime={series.range().end()}
                                 minTime={series.range().begin()}
+                                timeAxisAngledLabels={true}
                                 timeAxisHeight={65}
                                 onTrackerChanged={this.handleTrackerChanged}
                                 onBackgroundClick={() => this.setState({ selection: null })}
