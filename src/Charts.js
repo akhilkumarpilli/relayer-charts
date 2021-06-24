@@ -112,12 +112,13 @@ class RelayerCharts extends React.Component {
             { key: "dst", color: "#F68B24", width: 2 }
         ]);
 
-        let srcValue, dstValue;
+        let srcValue, dstValue, timeValue;
         if (this.state.tracker) {
             const index = series.bisect(this.state.tracker);
             const trackerEvent = series.at(index);
             srcValue = `${trackerEvent.get("src")}`;
             dstValue = `${trackerEvent.get("dst")}`;
+            timeValue = trackerEvent.timestamp();
         }
 
         return (
@@ -148,14 +149,14 @@ class RelayerCharts extends React.Component {
                                 timeAxisHeight={65}
                                 onTrackerChanged={this.handleTrackerChanged}
                                 onBackgroundClick={() => this.setState({ selection: null })}
-                                enablePanZoom={true}
+                                enablePanZoom={false}
                                 onMouseMove={(x, y) => this.handleMouseMove(x, y)}
                                 minDuration={1000 * 60 * 60 * 24 * 30}
                             >
                                 <ChartRow height="400">
                                     <YAxis
                                         id="y"
-                                        label="Packets Count"
+                                        label="Unrelayed Packets Count"
                                         min={min}
                                         max={max}
                                         style={{
@@ -171,6 +172,7 @@ class RelayerCharts extends React.Component {
                                         hideAxisLine
                                         width="60"
                                         type="linear"
+                                        format=",.1f"
                                     />
                                     <Charts>
                                         <LineChart
@@ -197,7 +199,11 @@ class RelayerCharts extends React.Component {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-md-12">
+                    <div className="col-md-6 col-sm-6 col-xs-6">
+                        <p >TIME</p>
+                        <p>{timeValue ? timeValue.toLocaleString() : ""}</p>
+                    </div>
+                    <div className="col-md-6 col-sm-6 col-xs-6">
                         <span>
                             <Legend
                                 type="line"
